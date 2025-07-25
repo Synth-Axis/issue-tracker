@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, Callout, Text } from "@radix-ui/themes";
+import { TextField, Button, Callout } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
@@ -12,7 +12,6 @@ import { createIssueSchema } from "@/app/createIssueSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { on } from "events";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -35,6 +34,7 @@ const NewIssuePage = () => {
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
+      console.error(error);
       setIsSubmitting(false);
       setError("An unexpected error occurred");
     }
