@@ -1,10 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { prisma } from "@/prisma/client";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 
-const IssuesPage = async () => {
-  const issues = await prisma.issue.findMany();
+interface Issue {
+  id: number;
+  title: string;
+  status: "OPEN" | "IN_PROGRESS" | "CLOSED";
+  createdAt: string;
+}
+
+const IssuesPage = () => {
+  const [issues, setIssues] = useState<Issue[]>([]);
+
+  useEffect(() => {
+    const fetchIssues = async () => {
+      const res = await fetch("/api/issues");
+      const data = await res.json();
+      setIssues(data);
+    };
+    fetchIssues();
+  }, []);
+
   return (
     <div>
       <div className="mb-5">
@@ -35,7 +54,7 @@ const IssuesPage = async () => {
                 <IssueStatusBadge status={issue.status} />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
+                {new Date(issue.createdAt).toLocaleDateString()}
               </Table.Cell>
             </Table.Row>
           ))}
