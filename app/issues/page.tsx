@@ -17,10 +17,22 @@ const IssuesPage = () => {
 
   useEffect(() => {
     const fetchIssues = async () => {
-      const res = await fetch("/api/issues");
-      const data = await res.json();
-      setIssues(data);
+      try {
+        const res = await fetch("/api/issues", { cache: "no-store" });
+
+        if (!res.ok) {
+          const text = await res.text(); // para debugging
+          console.error("Erro na resposta:", text);
+          return;
+        }
+
+        const data = await res.json();
+        setIssues(data);
+      } catch (error) {
+        console.error("Erro ao obter issues:", error);
+      }
     };
+
     fetchIssues();
   }, []);
 
