@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Table } from "@radix-ui/themes";
-import Link from "../components/Link";
-import IssueStatusBadge from "../components/IssueStatusBadge";
+import { Link, IssueStatusBadge } from "../components";
 import IssueActions from "./IssueActions";
 
 interface Issue {
@@ -22,7 +21,7 @@ const IssuesPage = () => {
         const res = await fetch("/api/issues", { cache: "no-store" });
 
         if (!res.ok) {
-          const text = await res.text(); // para debugging
+          const text = await res.text();
           console.error("Erro na resposta:", text);
           return;
         }
