@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "@radix-ui/themes";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
+import Link from "next/link";
 
 interface Issue {
   id: number;
@@ -55,7 +56,8 @@ const IssuesPage = () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                {issue.title}
+                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
+
                 <div className="block md:hidden"></div>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">

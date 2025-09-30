@@ -1,4 +1,3 @@
-import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import { Table } from "@radix-ui/themes";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
