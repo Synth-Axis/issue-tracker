@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ErrorMessage, Spinner } from "../../components";
-import { createIssueSchema } from "../../createIssueSchema";
+import { createIssueSchema } from "../../validationSchema";
 import { Issue } from "@prisma/client";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
