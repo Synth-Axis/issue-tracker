@@ -40,6 +40,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         return;
       } else await axios.post("/api/issues", data);
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       console.error(error);
       setIsSubmitting(false);
