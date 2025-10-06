@@ -1,4 +1,6 @@
 @import "easymde/dist/easymde.min.css";
+@import "@radix-ui/themes/styles.css";
+@import "./theme-config.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
