@@ -2,16 +2,14 @@ import React from "react";
 import IssueForm from "../../_components/IssueForm";
 import { prisma } from "@/prisma/client";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
+export default async function EditIssuePage(context: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await context.params;
 
-const EditIssuePage = async ({ params }: Props) => {
   const issue = await prisma.issue.findUnique({
     where: {
-      id: parseInt(params.id),
+      id: parseInt(id),
     },
   });
 
@@ -19,9 +17,8 @@ const EditIssuePage = async ({ params }: Props) => {
     notFound();
   }
   return <IssueForm issue={issue!} />;
-};
+}
 
-export default EditIssuePage;
 function notFound() {
   throw new Error("Function not implemented.");
 }

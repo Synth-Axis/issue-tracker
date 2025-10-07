@@ -5,12 +5,6 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
 export default async function IssueDetailPage(context: {
   params: Promise<{ id: string }>;
 }) {
