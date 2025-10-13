@@ -8,7 +8,7 @@ import { Spinner } from "../../components";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
-  const [error, setError] = useState(false);
+  const [errorIssue, setErrorIssue] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const deleteIssue = async () => {
     try {
@@ -18,7 +18,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
       router.refresh();
     } catch (error) {
       setIsDeleting(false);
-      setError(true);
+      setErrorIssue(true);
     }
   };
   return (
@@ -50,8 +50,8 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
           </Flex>
         </AlertDialog.Content>
       </AlertDialog.Root>
-      {error && (
-        <AlertDialog.Root open={error}>
+      {errorIssue && (
+        <AlertDialog.Root open>
           <AlertDialog.Content>
             <AlertDialog.Title>Error</AlertDialog.Title>
             <AlertDialog.Description>
@@ -61,7 +61,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
               color="gray"
               variant="soft"
               mt="2"
-              onClick={() => setError(false)}
+              onClick={() => setErrorIssue(false)}
             >
               OK
             </Button>
