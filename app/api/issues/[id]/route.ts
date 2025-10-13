@@ -1,15 +1,19 @@
 import { issueSchema } from "@/app/validationSchema";
 import { prisma } from "@/prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest as RequestType } from "next/server";
+
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
 
 // PATCH: update an issue
-export async function PATCH(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function PATCH(request: RequestType, context: RouteContext) {
   const body = await request.json();
-  const validation = issueSchema.safeParse(body);
 
+  const validation = issueSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
@@ -39,10 +43,7 @@ export async function PATCH(
 }
 
 // DELETE: delete an issue
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function DELETE(request: RequestType, context: RouteContext) {
   const issueId = parseInt(context.params.id);
 
   const issue = await prisma.issue.findUnique({
