@@ -21,16 +21,16 @@ export async function PATCH(
     return NextResponse.json({ message: "Invalid issue" }, { status: 404 });
   }
 
-  const updatedIssue = await prisma.issue.update({
-    where: {
-      id: issue.id,
-    },
-    data: {
-      title: body.title,
-      description: body.description,
-    },
-  });
-  return NextResponse.json({ message: "Issue updated" }, { status: 200 });
+  // const updatedIssue = await prisma.issue.update({
+  //   where: {
+  //     id: issue.id,
+  //   },
+  //   data: {
+  //     title: body.title,
+  //     description: body.description,
+  //   },
+  // });
+  // return NextResponse.json({ message: "Issue updated" }, { status: 200 });
 }
 
 export async function DELETE(

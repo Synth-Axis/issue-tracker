@@ -50,22 +50,24 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
           </Flex>
         </AlertDialog.Content>
       </AlertDialog.Root>
-      <AlertDialog.Root open={error}>
-        <AlertDialog.Content>
-          <AlertDialog.Title>Error</AlertDialog.Title>
-          <AlertDialog.Description>
-            This issue could not be deleted
-          </AlertDialog.Description>
-          <Button
-            color="gray"
-            variant="soft"
-            mt="2"
-            onClick={() => setError(false)}
-          >
-            OK
-          </Button>
-        </AlertDialog.Content>
-      </AlertDialog.Root>
+      {error && (
+        <AlertDialog.Root open={error}>
+          <AlertDialog.Content>
+            <AlertDialog.Title>Error</AlertDialog.Title>
+            <AlertDialog.Description>
+              This issue could not be deleted
+            </AlertDialog.Description>
+            <Button
+              color="gray"
+              variant="soft"
+              mt="2"
+              onClick={() => setError(false)}
+            >
+              OK
+            </Button>
+          </AlertDialog.Content>
+        </AlertDialog.Root>
+      )}
     </>
   );
 };
