@@ -65,6 +65,7 @@ const NavBar = () => {
                     fallback="?"
                     radius="full"
                     className="cursor-pointer"
+                    referrerPolicy="no-referrer"
                   />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
@@ -74,7 +75,6 @@ const NavBar = () => {
                   <DropdownMenu.Label>
                     <Text size="2">{session.user!.email}</Text>
                   </DropdownMenu.Label>
-
                   <DropdownMenu.Item>
                     <Link href="/api/auth/signout">Logout</Link>
                   </DropdownMenu.Item>
