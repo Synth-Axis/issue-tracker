@@ -16,9 +16,68 @@ import {
 } from "@radix-ui/themes";
 
 const NavBar = () => {
-  const currentPath = usePathname();
+  return (
+    <nav className="border-b mb-5 px-5 py-3">
+      <Container>
+        <Flex justify={"between"}>
+          <Flex align={"center"} gap={"3"}>
+            <Link href="/">
+              <AiFillBug />
+            </Link>
+            <NavLinks />
+          </Flex>
+          <AuthStatus />
+        </Flex>
+      </Container>
+    </nav>
+  );
+};
+
+const AuthStatus = () => {
   const { status, data: session } = useSession();
 
+  if (status === "loading") return null;
+
+  if (status === "unauthenticated")
+    return (
+      <Link className="nav-link" href="/api/auth/signin">
+        Login
+      </Link>
+    );
+
+  return (
+    <Box>
+      {status === "authenticated" && (
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <Avatar
+              size="3"
+              src={session.user!.image!}
+              fallback="?"
+              radius="full"
+              className="cursor-pointer"
+              referrerPolicy="no-referrer"
+            />
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>
+              <Text size="2">{session.user!.name}</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Label>
+              <Text size="2">{session.user!.email}</Text>
+            </DropdownMenu.Label>
+            <DropdownMenu.Item>
+              <Link href="/api/auth/signout">Logout</Link>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      )}
+    </Box>
+  );
+};
+
+const NavLinks = () => {
+  const currentPath = usePathname();
   const links = [
     {
       label: "Dashboard",
@@ -29,65 +88,22 @@ const NavBar = () => {
       href: "/issues",
     },
   ];
-
   return (
-    <nav className="border-b mb-5 px-5 py-3">
-      <Container>
-        <Flex justify={"between"}>
-          <Flex align={"center"} gap={"3"}>
-            <Link href="/">
-              <AiFillBug />
-            </Link>
-            <ul className="flex space-x-6">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    className={classNames({
-                      "text-zinc-900": link.href === currentPath,
-                      "text-zinc-500": link.href !== currentPath,
-                      "hover:text-zinc-800 transition-colors": true,
-                    })}
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Flex>
-          <Box>
-            {status === "authenticated" && (
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Avatar
-                    size="3"
-                    src={session.user!.image!}
-                    fallback="?"
-                    radius="full"
-                    className="cursor-pointer"
-                    referrerPolicy="no-referrer"
-                  />
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Label>
-                    <Text size="2">{session.user!.name}</Text>
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Label>
-                    <Text size="2">{session.user!.email}</Text>
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Item>
-                    <Link href="/api/auth/signout">Logout</Link>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            )}
-            {status === "unauthenticated" && (
-              <Link href="/api/auth/signin">Login</Link>
-            )}
-          </Box>
-        </Flex>
-      </Container>
-    </nav>
+    <ul className="flex space-x-6">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            className={classNames({
+              "nav-link": true,
+              "!text-zinc-900": link.href === currentPath,
+            })}
+            href={link.href}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 };
 
