@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { issueSchema } from "../../validationSchema";
+import authOptions from "@/app/auth/authOptions";
+import { getServerSession } from "next-auth";
 
 const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
   const body = await request.json();
   const validation = issueSchema.safeParse(body);
 
