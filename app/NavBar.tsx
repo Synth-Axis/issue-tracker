@@ -86,7 +86,7 @@ const NavLinks = () => {
     },
     {
       label: "Issues",
-      href: "/issues",
+      href: "/issues/list",
     },
   ];
   return (

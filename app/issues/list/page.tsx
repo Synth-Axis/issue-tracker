@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Table } from "@radix-ui/themes";
 import { Link, IssueStatusBadge } from "../../components";
 import IssueActions from "./IssueActions";
+import { IssueStatus } from "@prisma/client";
 
 interface Issue {
   id: number;
@@ -12,7 +13,16 @@ interface Issue {
   createdAt: string;
 }
 
-const IssuesPage = () => {
+interface Props {
+  searchParams: { status: IssueStatus };
+}
+
+const IssuesPage = ({ searchParams }: Props) => {
+  const statuses = Object.values(IssueStatus);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
   const [issues, setIssues] = useState<Issue[]>([]);
 
   useEffect(() => {
