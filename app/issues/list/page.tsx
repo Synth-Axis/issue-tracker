@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Table } from "@radix-ui/themes";
-import { Link, IssueStatusBadge } from "../components";
-import IssueActions from "./list/IssueActions";
+import { Link, IssueStatusBadge } from "../../components";
+import IssueActions from "./IssueActions";
 
 interface Issue {
   id: number;
