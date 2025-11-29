@@ -1,19 +1,10 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { Table } from "@radix-ui/themes";
 import { Link, IssueStatusBadge } from "../../components";
 import NextLink from "next/link";
 import IssueActions from "./IssueActions";
-import { IssueStatus } from "@prisma/client";
+import { IssueStatus, Issue } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
-
-interface Issue {
-  id: number;
-  title: string;
-  status: "OPEN" | "IN_PROGRESS" | "CLOSED";
-  createdAt: string;
-}
+import { prisma } from "@/prisma/client";
 
 interface Props {
   searchParams: {
@@ -23,7 +14,10 @@ interface Props {
   };
 }
 
-const IssuesPage = ({ searchParams }: Props) => {
+const IssuesPage = async ({ searchParams }: Props) => {
+  const orderBy = searchParams.orderBy ?? "createdAt";
+  const order = searchParams.order ?? "asc";
+
   const columns: {
     label: string;
     value: keyof Issue;
@@ -34,28 +28,12 @@ const IssuesPage = ({ searchParams }: Props) => {
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
 
-  const [issues, setIssues] = useState<Issue[]>([]);
-
-  useEffect(() => {
-    const fetchIssues = async () => {
-      try {
-        const res = await fetch("/api/issues", { cache: "no-store" });
-
-        if (!res.ok) {
-          const text = await res.text();
-          console.error("Erro na resposta:", text);
-          return;
-        }
-
-        const data = await res.json();
-        setIssues(data);
-      } catch (error) {
-        console.error("Erro ao obter issues:", error);
-      }
-    };
-
-    fetchIssues();
-  }, []);
+  const issues = await prisma.issue.findMany({
+    where: searchParams.status ? { status: searchParams.status } : {},
+    orderBy: {
+      [orderBy]: order,
+    },
+  });
 
   return (
     <div>
@@ -65,10 +43,8 @@ const IssuesPage = ({ searchParams }: Props) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column) => {
-              const isActive = column.value === searchParams.orderBy;
-
-              const nextOrder =
-                isActive && searchParams.order === "asc" ? "desc" : "asc";
+              const isActive = column.value === orderBy;
+              const nextOrder = isActive && order === "asc" ? "desc" : "asc";
 
               return (
                 <Table.ColumnHeaderCell key={column.value}>
@@ -86,7 +62,7 @@ const IssuesPage = ({ searchParams }: Props) => {
 
                   {isActive && (
                     <>
-                      {searchParams.order === "asc" ? (
+                      {order === "asc" ? (
                         <ArrowUpIcon className="inline-block ml-1" />
                       ) : (
                         <ArrowUpIcon className="inline-block ml-1 rotate-180" />
@@ -104,7 +80,9 @@ const IssuesPage = ({ searchParams }: Props) => {
             <Table.Row key={issue.id}>
               <Table.Cell>
                 <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden"></div>
+                <div className="block md:hidden">
+                  <IssueStatusBadge status={issue.status} />
+                </div>
               </Table.Cell>
 
               <Table.Cell className="hidden md:table-cell">
