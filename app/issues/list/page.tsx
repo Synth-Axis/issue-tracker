@@ -47,7 +47,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
               const nextOrder = isActive && order === "asc" ? "desc" : "asc";
 
               return (
-                <Table.ColumnHeaderCell key={column.value}>
+                <Table.ColumnHeaderCell
+                  key={column.value}
+                  className={column.className}
+                >
                   <NextLink
                     href={{
                       query: {
