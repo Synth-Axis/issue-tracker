@@ -1,12 +1,10 @@
 "use client";
-import { IssueStatus } from "@prisma/client";
+
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import React from "react";
-
-const statuses: { label: string; value?: IssueStatus | string }[] = [
-  { label: "All", value: "all" }, // Set a unique value for "All"
+const statuses = [
+  { label: "All", value: "all" },
   { label: "Open", value: "OPEN" },
   { label: "In Progress", value: "IN_PROGRESS" },
   { label: "Closed", value: "CLOSED" },
@@ -15,26 +13,31 @@ const statuses: { label: string; value?: IssueStatus | string }[] = [
 const IssueStatusFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const handleChange = (value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value === "all") {
+      params.delete("status");
+    } else {
+      params.set("status", value);
+    }
+
+    params.set("page", "1");
+
+    router.push(`/issues/list?${params.toString()}`);
+  };
+
   return (
     <Select.Root
-      defaultValue={searchParams.get("status") || "all"}
-      onValueChange={(status) => {
-        const params = new URLSearchParams();
-        if (status) params.append("status", status);
-        if (searchParams.get("orderBy"))
-          params.append("orderBy", searchParams.get("orderBy")!);
-        const query = params.size ? "?" + params.toString() : "";
-        router.push(`/issues/list` + query);
-      }}
+      defaultValue={searchParams.get("status") ?? "all"}
+      onValueChange={handleChange}
     >
-      <Select.Trigger placeholder="Filter by Status..." />
+      <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>
-        {statuses.map((status, index) => (
-          <Select.Item
-            key={status.value || `status-${index}`}
-            value={status.value || "all"} // Set a non-empty value for the "All" option
-          >
-            {status.label}
+        {statuses.map((s) => (
+          <Select.Item key={s.value} value={s.value}>
+            {s.label}
           </Select.Item>
         ))}
       </Select.Content>
