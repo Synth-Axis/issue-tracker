@@ -50,7 +50,29 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Issue List",
-  description: "View all project issues",
+  description: "All Isues",
+  openGraph: {
+    title: "Issue Tracker - Issue List",
+    description: "View All project Issues.",
+    url: "https://your-domain.com",
+    siteName: "Issue Tracker",
+    images: [
+      {
+        url: "https://your-domain.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Issue Tracker - Issue List",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Issue Tracker - Issue List",
+    description: "View All project Issues.",
+    images: ["https://your-domain.com/og-image.png"],
+  },
 };
 
 export default IssuesPage;

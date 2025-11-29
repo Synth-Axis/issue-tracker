@@ -1,5 +1,5 @@
 import React from "react";
-import IssueForm from "../../_components/IssueForm";
+import IssueForm from "../_components/IssueForm";
 import { prisma } from "@/prisma/client";
 
 export default async function EditIssuePage(context: {
