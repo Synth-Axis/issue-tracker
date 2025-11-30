@@ -56,26 +56,29 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
+
   const issue = await prisma.issue.findUnique({
     where: {
-      id: parseInt(params.id),
+      id: parseInt(context.params.id),
     },
   });
 
   if (!issue) {
     return NextResponse.json({ message: "Invalid issue" }, { status: 404 });
   }
+
   await prisma.issue.delete({
     where: {
       id: issue.id,
     },
   });
+
   return NextResponse.json({});
 }
