@@ -1,24 +1,24 @@
-import React from "react";
 import IssueForm from "../_components/IssueForm";
 import { prisma } from "@/prisma/client";
+import { notFound } from "next/navigation";
 
-export default async function EditIssuePage(context: {
-  params: Promise<{ id: string }>;
+export default async function EditIssuePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
 }) {
-  const { id } = await context.params;
+  const resolved = await searchParams;
+
+  const id = resolved.id;
+  if (!id) notFound();
 
   const issue = await prisma.issue.findUnique({
     where: {
-      id: parseInt(id),
+      id: parseInt(id, 10),
     },
   });
 
-  if (!issue) {
-    notFound();
-  }
-  return <IssueForm issue={issue!} />;
-}
+  if (!issue) notFound();
 
-function notFound() {
-  throw new Error("Function not implemented.");
+  return <IssueForm issue={issue} />;
 }
