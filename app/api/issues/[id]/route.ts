@@ -45,11 +45,9 @@ export async function PATCH(
   return NextResponse.json(updatedIssue, { status: 200 });
 }
 
-export async function DELETE(
-  request: Request,
-  context: { params: Record<string, string> }
-) {
-  const { params } = context;
+// @ts-expect-error Next.js route handlers do not allow typed params
+export async function DELETE(request, context) {
+  const { params } = context as { params: { id: string } };
 
   const session = await getServerSession(authOptions);
   if (!session)
