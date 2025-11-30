@@ -1,27 +1,30 @@
 import Pagination from "@/app/components/Pagination";
-import { IssueStatus } from "@prisma/client";
+import { Status } from "@prisma/client";
 import IssueActions from "./IssueActions";
 import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 import { prisma } from "@/prisma/client";
 
-interface Props {
-  searchParams: IssueQuery;
-}
+const IssuesPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<IssueQuery>;
+}) => {
+  const resolved = await searchParams;
 
-const IssuesPage = async ({ searchParams }: Props) => {
-  const statuses = Object.values(IssueStatus);
-  const status = statuses.includes(searchParams.status)
-    ? searchParams.status
+  const statuses = Object.values(Status);
+  const status = statuses.includes(resolved.status)
+    ? resolved.status
     : undefined;
+
   const where = { status };
 
-  const orderBy = columnNames.includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: "asc" }
+  const orderBy = columnNames.includes(resolved.orderBy)
+    ? { [resolved.orderBy]: "asc" }
     : undefined;
 
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt(resolved.page) || 1;
   const pageSize = 10;
 
   const issues = await prisma.issue.findMany({
@@ -36,7 +39,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
-      <IssueTable searchParams={searchParams} issues={issues} />
+      <IssueTable searchParams={resolved} issues={issues} />
       <Pagination
         pageSize={pageSize}
         currentPage={page}
@@ -50,7 +53,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Issue Tracker - Issue List",
-  description: "All Isues",
+  description: "All Issues",
   openGraph: {
     title: "Issue Tracker - Issue List",
     description: "View All project Issues.",
