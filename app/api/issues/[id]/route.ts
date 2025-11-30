@@ -55,7 +55,7 @@ export async function PATCH(
   return NextResponse.json(updatedIssue, { status: 200 });
 }
 
-export async function DELETE({ params }: RouteContext) {
+export async function DELETE(request: NextRequest, { params }: RouteContext) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
 
