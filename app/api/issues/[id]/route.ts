@@ -56,8 +56,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse> {
+  context: { params: { id: string } }
+) {
+  const { params } = context;
+
   const session = await getServerSession(authOptions);
 
   if (!session) {
