@@ -4,10 +4,10 @@ import { Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import NextLink from "next/link";
-import { Issue, IssueStatus } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 
 export interface IssueQuery {
-  status: IssueStatus;
+  status: Status;
   orderBy: keyof Issue;
   page: string;
 }
