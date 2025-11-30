@@ -8,15 +8,17 @@ import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
 import { prisma } from "@/prisma/client";
 
-interface Props {
-  params: { id: string };
-}
+export default async function IssueDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-const IssueDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
 
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id, 10) },
   });
 
   if (!issue) notFound();
@@ -37,11 +39,17 @@ const IssueDetailPage = async ({ params }: Props) => {
       )}
     </Grid>
   );
-};
+}
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id, 10) },
   });
 
   return {
@@ -49,5 +57,3 @@ export async function generateMetadata({ params }: Props) {
     description: "Details of issue " + issue?.id,
   };
 }
-
-export default IssueDetailPage;
