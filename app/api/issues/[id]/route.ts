@@ -56,8 +56,8 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
-) {
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -65,9 +65,7 @@ export async function DELETE(
   }
 
   const issue = await prisma.issue.findUnique({
-    where: {
-      id: parseInt(context.params.id),
-    },
+    where: { id: parseInt(params.id) },
   });
 
   if (!issue) {
@@ -75,9 +73,7 @@ export async function DELETE(
   }
 
   await prisma.issue.delete({
-    where: {
-      id: issue.id,
-    },
+    where: { id: issue.id },
   });
 
   return NextResponse.json({});
