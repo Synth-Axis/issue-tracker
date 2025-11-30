@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   request: Request,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   const { params } = context;
 
@@ -47,15 +47,16 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   const { params } = context;
 
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({}, { status: 401 });
+  if (!session)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(params.id, 10) },
   });
 
   if (!issue)
