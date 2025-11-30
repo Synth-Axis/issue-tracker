@@ -20,6 +20,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         assignedToUserId: updatedUserId,
       })
       .catch((err) => {
+        console.error(err);
         toast.error("Changes could not be saved");
       });
   };

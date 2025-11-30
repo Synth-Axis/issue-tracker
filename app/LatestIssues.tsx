@@ -3,7 +3,6 @@ import React from "react";
 import { IssueStatusBadge } from "./components";
 import Link from "next/link";
 import { prisma } from "@/prisma/client";
-import Head from "next/head";
 
 const LatestIssues = async () => {
   const issues = await prisma.issue.findMany({

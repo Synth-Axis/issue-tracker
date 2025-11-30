@@ -51,7 +51,7 @@ export async function PATCH(
       assignedToUserId,
     },
   });
-  return NextResponse.json({ message: "Issue updated" }, { status: 200 });
+  return NextResponse.json(updatedIssue, { status: 200 });
 }
 
 export async function DELETE(
