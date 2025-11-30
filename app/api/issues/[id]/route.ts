@@ -4,11 +4,9 @@ import { prisma } from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function PATCH(
-  request: Request,
-  context: { params: Record<string, string> }
-) {
-  const { params } = context;
+// @ts-expect-error Next.js forbids typing route handler params
+export async function PATCH(request, context) {
+  const { params } = context as { params: { id: string } };
 
   const session = await getServerSession(authOptions);
   if (!session)
