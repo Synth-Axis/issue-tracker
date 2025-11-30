@@ -10,7 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ErrorMessage, Spinner } from "../../components";
 import { issueSchema } from "../../validationSchema";
-import { Issue } from "@prisma/client";
+import { issue } from "@prisma/client";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -18,7 +18,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-const IssueForm = ({ issue }: { issue?: Issue }) => {
+const IssueForm = ({ issue }: { issue?: issue }) => {
   const router = useRouter();
   const {
     register,
