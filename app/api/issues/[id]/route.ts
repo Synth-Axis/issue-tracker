@@ -54,8 +54,11 @@ export async function PATCH(
   return NextResponse.json(updatedIssue, { status: 200 });
 }
 
-export async function DELETE(request: NextRequest, context: any) {
-  const { params } = context;
+export async function DELETE(
+  request: NextRequest,
+  context: Record<string, unknown>
+) {
+  const params = (context as { params: { id: string } }).params;
 
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
