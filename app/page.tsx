@@ -49,3 +49,5 @@ export const metadata: Metadata = {
     images: ["https://your-domain.com/og-image.png"],
   },
 };
+
+export const dynamic = "force-dynamic";
