@@ -44,7 +44,7 @@ const IssuesPage = async ({
 
   return (
     <Flex direction="column" gap="5">
-      <Flex direction="column" gap="3">
+      <Flex direction="column" gap="2">
         <IssueActions />
         <IssueTable searchParams={resolved} issues={issues} />
       </Flex>
