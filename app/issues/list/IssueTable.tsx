@@ -1,10 +1,10 @@
 import { IssueStatusBadge } from "@/app/components";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
-import { Table } from "@radix-ui/themes";
+import { Avatar, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import NextLink from "next/link";
-import { Issue, Status } from "@prisma/client";
+import { Issue, Prisma, Status } from "@prisma/client";
 
 export interface IssueQuery {
   status: Status;
@@ -12,9 +12,13 @@ export interface IssueQuery {
   page: string;
 }
 
+type IssueWithUser = Prisma.IssueGetPayload<{
+  include: { assignedToUser: true };
+}>;
+
 interface Props {
   searchParams: IssueQuery;
-  issues: Issue[];
+  issues: IssueWithUser[];
 }
 
 const IssueTable = ({ searchParams, issues }: Props) => {
@@ -53,11 +57,26 @@ const IssueTable = ({ searchParams, issues }: Props) => {
                 <IssueStatusBadge status={issue.status} />
               </div>
             </Table.Cell>
+
             <Table.Cell className="hidden md:table-cell">
               <IssueStatusBadge status={issue.status} />
             </Table.Cell>
+
             <Table.Cell className="hidden md:table-cell">
               {issue.createdAt.toDateString()}
+            </Table.Cell>
+
+            <Table.Cell className="hidden md:table-cell">
+              {issue.assignedToUser ? (
+                <Avatar
+                  src={issue.assignedToUser?.image ?? undefined}
+                  fallback={issue.assignedToUser?.name?.[0] ?? "?"}
+                  size="2"
+                  radius="full"
+                />
+              ) : (
+                <span className="text-gray-400 text-sm">Unassigned</span>
+              )}
             </Table.Cell>
           </Table.Row>
         ))}
@@ -68,7 +87,7 @@ const IssueTable = ({ searchParams, issues }: Props) => {
 
 const columns: {
   label: string;
-  value: keyof Issue;
+  value: string;
   className?: string;
 }[] = [
   { label: "Issue", value: "title" },
@@ -80,6 +99,11 @@ const columns: {
   {
     label: "Created",
     value: "createdAt",
+    className: "hidden md:table-cell",
+  },
+  {
+    label: "Assigned",
+    value: "assignedToUserId",
     className: "hidden md:table-cell",
   },
 ];
