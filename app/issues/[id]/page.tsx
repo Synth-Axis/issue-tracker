@@ -11,9 +11,9 @@ import { prisma } from "@/prisma/client";
 export default async function IssueDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   const session = await getServerSession(authOptions);
 
@@ -28,7 +28,6 @@ export default async function IssueDetailPage({
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
       </Box>
-
       {session && (
         <Box>
           <Flex direction="column" gap="4">
@@ -45,9 +44,9 @@ export default async function IssueDetailPage({
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(id, 10) },
