@@ -28,6 +28,7 @@ export default async function IssueDetailPage({
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
       </Box>
+
       {session && (
         <Box>
           <Flex direction="column" gap="4">
@@ -54,6 +55,6 @@ export async function generateMetadata({
 
   return {
     title: issue?.title,
-    description: `Details of issue ${issue?.id}`,
+    description: "Details of issue " + issue?.id,
   };
 }
