@@ -11,6 +11,7 @@ export interface IssueQuery {
   orderBy: keyof Issue;
   order?: "asc" | "desc";
   page: string;
+  pageSize?: string;
 }
 
 type IssueWithUser = Prisma.IssueGetPayload<{
