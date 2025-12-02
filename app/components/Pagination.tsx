@@ -38,6 +38,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         variant="soft"
         disabled={currentPage === 1}
         onClick={() => changePage(1)}
+        className="cursor-pointer"
       >
         <DoubleArrowLeftIcon />
       </Button>
@@ -46,6 +47,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         variant="soft"
         disabled={currentPage === 1}
         onClick={() => changePage(currentPage - 1)}
+        className="cursor-pointer"
       >
         <ChevronLeftIcon />
       </Button>
@@ -54,6 +56,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         variant="soft"
         disabled={currentPage === pageCount}
         onClick={() => changePage(currentPage + 1)}
+        className="cursor-pointer"
       >
         <ChevronRightIcon />
       </Button>
@@ -62,6 +65,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
         variant="soft"
         disabled={currentPage === pageCount}
         onClick={() => changePage(pageCount)}
+        className="cursor-pointer"
       >
         <DoubleArrowRightIcon />
       </Button>
