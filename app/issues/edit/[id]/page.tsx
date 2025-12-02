@@ -1,3 +1,7 @@
+import IssueForm from "@/app/issues/_components/IssueForm";
+import { prisma } from "@/prisma/client";
+import { notFound } from "next/navigation";
+
 export default async function EditIssuePage({
   searchParams,
 }: {
