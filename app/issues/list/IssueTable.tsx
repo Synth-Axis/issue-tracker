@@ -1,5 +1,5 @@
 import { IssueStatusBadge } from "@/app/components";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
+import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
 import { Avatar, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
@@ -9,6 +9,7 @@ import { Issue, Prisma, Status } from "@prisma/client";
 export interface IssueQuery {
   status: Status;
   orderBy: keyof Issue;
+  order?: "asc" | "desc";
   page: string;
 }
 
@@ -36,14 +37,38 @@ const IssueTable = ({ searchParams, issues }: Props) => {
                   query: {
                     ...searchParams,
                     orderBy: column.value,
+                    order:
+                      searchParams.orderBy === column.value &&
+                      searchParams.order === "asc"
+                        ? "desc"
+                        : "asc",
                   },
                 }}
               >
                 {column.label}
               </NextLink>
-              {column.value === searchParams.orderBy && (
-                <ArrowUpIcon className="inline" />
-              )}
+
+              <div className="inline-block ml-1">
+                {/* Ascending arrow */}
+                <ArrowUpIcon
+                  className={`inline ${
+                    searchParams.orderBy === column.value &&
+                    searchParams.order === "asc"
+                      ? "text-green-500"
+                      : "text-gray-400"
+                  }`}
+                />
+
+                {/* Descending arrow */}
+                <ArrowDownIcon
+                  className={`inline ml-1 ${
+                    searchParams.orderBy === column.value &&
+                    searchParams.order === "desc"
+                      ? "text-red-500"
+                      : "text-gray-400"
+                  }`}
+                />
+              </div>
             </Table.ColumnHeaderCell>
           ))}
         </Table.Row>

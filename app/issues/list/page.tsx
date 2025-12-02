@@ -20,8 +20,13 @@ const IssuesPage = async ({
 
   const where = { status };
 
+  const order =
+    resolved.order === "asc" || resolved.order === "desc"
+      ? resolved.order
+      : "asc";
+
   const orderBy = columnNames.includes(resolved.orderBy)
-    ? { [resolved.orderBy]: "asc" }
+    ? { [resolved.orderBy]: order }
     : undefined;
 
   const page = parseInt(resolved.page) || 1;
