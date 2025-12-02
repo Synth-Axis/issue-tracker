@@ -30,7 +30,10 @@ const IssuesPage = async ({
     : undefined;
 
   const page = parseInt(resolved.page) || 1;
-  const pageSize = parseInt(resolved.pageSize as any) || 5;
+  const pageSize =
+    typeof resolved.pageSize === "string" && !isNaN(Number(resolved.pageSize))
+      ? Number(resolved.pageSize)
+      : 5;
 
   const issues = await prisma.issue.findMany({
     where,

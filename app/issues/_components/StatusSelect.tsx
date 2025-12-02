@@ -8,17 +8,12 @@ import toast from "react-hot-toast";
 import { statusMap } from "./statusMap";
 
 export default function StatusSelect({ issue }: { issue: Issue }) {
-  const [loading, setLoading] = useState(false);
-
   const changeStatus = async (newStatus: Status) => {
     try {
-      setLoading(true);
       await axios.patch(`/api/issues/${issue.id}`, { status: newStatus });
       toast.success("Status updated");
     } catch {
       toast.error("Failed to update status");
-    } finally {
-      setLoading(false);
     }
   };
 
