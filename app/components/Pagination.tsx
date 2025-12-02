@@ -8,7 +8,7 @@ import {
 } from "@radix-ui/react-icons";
 import { Button, Flex, Text, Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 interface Props {
   itemCount: number;
