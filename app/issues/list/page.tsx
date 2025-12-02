@@ -43,9 +43,11 @@ const IssuesPage = async ({
   const issueCount = await prisma.issue.count({ where });
 
   return (
-    <Flex direction="column" gap="4">
-      <IssueActions />
-      <IssueTable searchParams={resolved} issues={issues} />
+    <Flex direction="column" gap="5">
+      <Flex direction="column" gap="3">
+        <IssueActions />
+        <IssueTable searchParams={resolved} issues={issues} />
+      </Flex>
       <Pagination
         pageSize={pageSize}
         currentPage={page}
