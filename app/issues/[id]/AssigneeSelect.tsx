@@ -31,13 +31,17 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
         defaultValue={issue.assignedToUserId || "-"}
         onValueChange={assignIssue}
       >
-        <Select.Trigger placeholder="Assign..." />
+        <Select.Trigger className="cursor-pointer" placeholder="Assign..." />
         <Select.Content>
           <Select.Group>
             <Select.Label>Sugestions</Select.Label>
             <Select.Item value="-">Unasigned</Select.Item>
             {users?.map((user) => (
-              <Select.Item key={user.id} value={user.id}>
+              <Select.Item
+                key={user.id}
+                value={user.id}
+                className="cursor-pointer"
+              >
                 {user.name}
               </Select.Item>
             ))}
