@@ -24,8 +24,8 @@ const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      return "/";
+    async redirect() {
+    return "/";
     },
   },
 };
