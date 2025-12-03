@@ -20,15 +20,14 @@ const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/auth/signin",
-    signOut: "/",
   },
 
   callbacks: {
-    async redirect() {
-    return "/";
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return url;
+      return baseUrl;
     },
   },
 };
 
 export default authOptions;
-
