@@ -6,15 +6,29 @@ import { NextAuthOptions } from "next-auth";
 const authOptions: NextAuthOptions = {
   debug: true,
   adapter: PrismaAdapter(prisma),
+
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+
   session: {
     strategy: "jwt",
+  },
+
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/",
+  },
+
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return "/";
+    },
   },
 };
 
 export default authOptions;
+
