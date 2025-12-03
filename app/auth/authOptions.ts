@@ -18,10 +18,6 @@ const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
 
-  pages: {
-    signIn: "/auth/signin",
-  },
-
   callbacks: {
     async redirect({ url, baseUrl }) {
       if (url.startsWith("/")) return url;
